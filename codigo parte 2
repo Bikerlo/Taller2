@@ -1,0 +1,111 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include <cstdlib>
+#include <algorithm>
+
+using namespace std;
+
+void digitarNotas(vector<double> &notas);
+void mostrarNotas(vector<double> notas);
+void guardarNotas(vector<double> notas, string nombreArchivo);
+void leerNotas( vector<double> &calificaciones);
+double promedio(vector<double> calificaciones);
+void bono(vector<double> &cal);
+
+int main()
+{
+    double p1;
+    vector<double> calificaciones;
+   // digitarNotas(calificaciones);
+    leerNotas(calificaciones);
+    system("cls");
+   // mostrarNotas(calificaciones);
+   // guardarNotas(calificaciones,"notas.txt
+    mostrarNotas(calificaciones);
+    cout<<"\n\n\n";
+    bono(calificaciones);
+    mostrarNotas(calificaciones) ;
+    return 0;
+}
+
+void digitarNotas(vector<double> &notas)
+{
+    char respuesta='S';
+    double nota;
+    do{
+        cout <<"Digite la nota a registrar " ;
+        cin >> nota;
+        notas.push_back(nota);
+        cout <<"Desea ingresar más notas S/N ";
+        cin >> respuesta;
+        cout << endl;
+    }while (respuesta == 'S' || respuesta == 's');
+}
+
+void mostrarNotas(vector<double> cali)
+{
+    cout << endl;
+    for(unsigned int i=0; i<cali.size(); i++)
+    {
+        cout << cali[i] << endl;
+    }
+}
+
+void guardarNotas(vector<double> cali, string nombreArchivo)
+{
+    ofstream F(nombreArchivo.c_str());
+    F << cali.size();
+    F << endl;
+    for(unsigned int i=0; i<cali.size(); i++)
+    {
+        F << cali[i] ;
+        F << endl;
+    }
+}
+void leerNotas( vector<double> &calificaciones)
+{
+        string archivo;
+        cout<<"dame el nombre del archivo : ";
+        cin>> archivo;
+        ifstream Archivo_lectura(archivo.c_str());
+
+        if (!Archivo_lectura){
+            cout<<"no encontre el archivo "<< archivo<<endl;
+            system("PAUSE");
+             }
+    double cal;
+    while (Archivo_lectura>>cal){calificaciones.push_back(cal);}
+    Archivo_lectura.close();
+}
+double promedio(vector<double>cali){
+
+double r=0,conta=0,promedio_1;
+for(int i=0;i<cali.size();i++){
+    r=cali[i]+r;
+    conta++;
+}
+promedio_1=r/conta;
+
+return promedio_1;
+
+}
+
+void bono(vector<double> &cal){
+
+ double nota_nueva;
+ int una_vez=0;
+for(int i=0;i<cal.size();i++){
+    if((cal[i]>4) && una_vez==0)
+    {
+        cal[i]=cal[i]+(cal[i]*0.1);
+        una_vez=1;
+        if(cal[i]>5){
+            cal[i]=5;
+        }
+
+    }
+}
+}
+
