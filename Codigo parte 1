@@ -1,0 +1,79 @@
+#include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <sstream>
+
+using namespace std;
+void leerVentas(string nombreFichero, vector<vector<int> > &vtas, int &fil, int &col);
+void mostrarVtas(vector<vector<int> > vtas);
+void calcular1( vector<vector<int> > vtas);
+void calcular2(vector<vector<int> > vtas);
+int main()
+{
+    vector<vector<int> > ventas;
+    int fila=0, columna=0;
+    leerVentas("ventas2.txt", ventas,fila,columna);
+    calcular1(ventas);
+    calcular2(ventas);
+
+    return 0;
+}
+
+void leerVentas(string nombreFichero, vector<vector<int> > &vtas, int &fil, int &col)
+{
+    ifstream F(nombreFichero.c_str());
+    if (!F.is_open()){
+        cout <<"No se ha podido abrir '"<<nombreFichero <<"'" <<endl;
+        return;
+    }
+    string linea;
+    getline(F,linea);
+    istringstream S(linea);
+    S >> fil >> col;
+    vtas.resize(fil, vector<int> (col));
+    for(unsigned int i=0; i<vtas.size(); i++)
+        vtas[i].resize(col);
+
+    for(unsigned int i=0; i<vtas.size(); i++)
+        for(unsigned int j=0; j<vtas[i].size(); j++)
+            F >> vtas[i][j];
+
+    /*for(int i=0; i<vtas.size(); i++)
+    {
+        for(int j=0; j<vtas[i].size(); j++)
+            cout << vtas[i][j] << " ";
+        cout << endl;
+    }*/
+}
+void calcular1( vector<vector<int> > vtas){
+
+int s1=0,s2=0,s3=0,s4=0;
+cout<<"Ventas por cada sucursal en el primer trimestre"<<endl;
+
+for(int j=0; j<vtas[2].size(); j++){
+            s1=(vtas[0][j])+s1;
+            s2=(vtas[1][j])+s2;
+            s3=(vtas[2][j])+s3;
+            s4=(vtas[3][j])+s4;
+}
+cout<<endl<<"Sucursal_1: "<<s1;
+cout<<endl<<"Sucursal_2: "<<s2;
+cout<<endl<<"Sucursal_3: "<<s3;
+cout<<endl<<"Sucursal_4: "<<s4;
+}
+void calcular2(vector<vector<int> > vtas){
+
+int enero=0,febrero=1,marzo=2;
+int mes1=0,mes2=0,mes3=0;
+cout<<endl<<"\nVentas de las sucursales por mes"<<endl;
+
+for(int i=0;i<vtas.size();i++){
+    mes1=(vtas[i][enero])+mes1;
+    mes2=(vtas[i][febrero])+mes2;
+    mes3=(vtas[i][marzo])+mes3;
+}
+cout<<endl<<"Ventas_Enero: "<<mes1;
+cout<<endl<<"Ventas_Febrero: "<<mes2;
+cout<<endl<<"Ventas_Marzo: "<<mes3;
+}
